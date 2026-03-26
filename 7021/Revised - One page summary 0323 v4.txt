@@ -1,0 +1,103 @@
+One page summary of research proposal
+
+1. Project Title
+Exploring the Role of Banks in Improving Financial Retirement Planning through Bank-Led Financial Education Based on the CWO Framework: A Study of Private Sector Employees in Hong Kong
+
+2. Core Question Background
+Hong Kong's current retirement system relies on the Mandatory Provident Fund (MPF), which provides foundational support for private sector employees in Hong Kong (Mandatory Provident Fund Schemes Authority, 2023). While government servants receive pension protection under the Civil Service Pension Scheme (Civil Service Bureau, n.d.), private sector employees rely on the Mandatory Provident Fund (MPF) system with varying levels of supplementary planning (Mandatory Provident Fund Schemes Authority, 2023; Chou et al., 2014), creating a natural context for examining retirement planning behaviours. As of March 2025, approximately 94% of the workforce in Hong Kong was employed in the private sector, and the remaining 6% comprised public sector employees (government departments and related organizations) (Census and Statistics Department, 2025). This high percentage reflects Hong Kong's status as a predominantly market-driven economy with limited direct government employment. According to a survey by WTW, both high-income and low-income employees in Hong Kong believe that their retirement savings are insufficient, and high-income employees think that their actual savings rate is 16% lower than expected (Hwang, 2022). Besides, Hong Kong's banking sector, comprising major international and local banks, serves as a major provider of MPF-related services, retirement savings products, and financial advisory channels (Hong Kong Monetary Authority, 2023). Financial education emerges as a critical tool for enhancing individual financial capabilities, yet the specific role of commercial banks in delivering effective financial education within Hong Kong's unique sociocultural context remains underexplored.
+
+Hong Kong faces a significant financial retirement planning challenge. Previous research suggests that many employees still face barriers in long-term retirement preparation, including limited knowledge, weak confidence, and insufficient engagement with planning decisions (Chou et al., 2014; Hershey et al., 2010). The study examines employees across various private sector industries, excluding government employees who receive guaranteed pension benefits and self-employed individuals with different retirement planning mechanisms.
+
+Following the Sri Lanka study design adapted to Hong Kong's context (Bandara & Durairatnam, 2025), this study focuses on private sector employees in Hong Kong. For this research, "private sector employees" are defined as individuals employed by:
+1) commercial enterprises seeking profit, including corporations and partnerships;
+2) NGOs and non-profit organizations; and
+3) commercial or principal statutory bodies, such as public utilities.
+
+In terms of MPF Cap. 485, employees in the private sector, rather than government staff or the self-employed, are generally subject to the MPF plan. The Employment Ordinance (Cap. 57), the Companies Ordinance (Cap. 622), and the Hong Kong Standard Industrial Classification also help distinguish the private sector from public employment in legal, regulatory, and statistical terms (Census and Statistics Department, 2009).
+
+3. Research Questions
+This study aims to explore how bank-led financial education may influence financial retirement planning among Hong Kong's private sector employees, and how banks could utilize the CWO framework to provide retirement planning support. The research questions are:
+
+How do Capability, Willingness, and Opportunity relate to retirement planning among Hong Kong private sector employees?
+How do private sector employees perceive the role of banks in financial education for retirement planning, and what kind of role do they expect banks to play?
+What financial education practices should banks adopt to better address capability, willingness, and opportunity barriers?
+
+These research questions are explicitly aligned with the CWO framework. The first question examines retirement planning through the three dimensions of capability, willingness, and opportunity. The second question focuses on how employees perceive banks within these dimensions, especially in relation to trust, accessibility, and relevance. The third question uses the findings from the first two questions to identify how banks can design financial education practices that respond to specific CWO-related barriers. This structure ensures that the research questions, data collection, and practical recommendations are conceptually connected.
+
+4. Research Objectives
+The study aims to examine how bank-led financial education relates to retirement planning among Hong Kong private sector employees and how the CWO framework can be used to structure the study.
+Specifically, the research seeks to:
+- identify how private sector employees understand retirement planning and bank-led financial education;
+- examine the main gaps between employees' expectations and the kind of support banks currently provide;
+- use the CWO framework to organize the survey and interview design;
+- clarify what role banks are expected to play as retirement educators, information providers, and access points for financial guidance; and
+- generate practical recommendations for banks on how to design more relevant retirement-related financial education.
+Importantly, this project does not claim to test a causal intervention effect. The current design is better suited to examining perceptions, relationships, and design implications than to proving that one intervention directly changes behavior.
+
+5. Core Concept/Conceptual Framework
+The Capability-Willingness-Opportunity (CWO) framework has been applied in Sri Lanka (Bandara & Durairatnam, 2025) and China (Han & Sang, 2024) to examine financial retirement planning, while its application in Hong Kong remains limited. The CWO framework provides a structured approach to understanding how financial education may influence financial retirement planning through capability-related, motivational, and contextual factors (Blumberg & Pringle, 1982; Hershey et al., 2010).
+
+The Capability-Willingness-Opportunity (CWO) framework provides the central lens for this study. It helps explain behavior by looking at three connected dimensions:
+Capability: whether employees have the knowledge, skills, and confidence to understand retirement planning and MPF-related decisions.
+Willingness: whether employees are motivated, trust the source of information, and feel ready to take action.
+Opportunity: whether external conditions make retirement planning easier or harder, including access to information, workplace support, time pressure, language, and digital access.
+
+In this proposal, CWO is not only a theory discussed in the background section. It will directly shape the questionnaire and interview guide. The CWO framework will directly shape the formulation of the research questions, the design of the questionnaire, the development of the interview guide, and the interpretation of the findings. Research Question 1 focuses directly on the three CWO dimensions. Research Question 2 extends the framework by examining whether banks are perceived as credible, accessible, and relevant providers of retirement-related education. Research Question 3 builds on the findings of the first two questions to identify what forms of bank-led financial education are most appropriate for addressing capability-related, willingness-related, and opportunity-related barriers.
+
+This alignment also shapes the research instruments. In the quantitative phase, survey items will be grouped around the three CWO dimensions. Capability-related items will examine retirement knowledge, financial literacy, and self-confidence in making retirement decisions. Willingness-related items will examine motivation to plan, trust in banks, and readiness to act. Opportunity-related items will examine access to information, digital channels, workplace support, and other external conditions that may enable or constrain retirement planning. In the qualitative phase, interview questions will explore how participants interpret these barriers in everyday life and what forms of bank-led support they consider realistic, useful, and trustworthy. In this way, the CWO framework helps structure both the project and the design of the research questions in a coherent and applied manner.
+
+6. Methodology
+This study adopts a mixed design of quantitative research and qualitative research, and the research object is private sector employees in Hong Kong. Quantitative research plays a leading role in the empirical literature on retirement. Although it can identify the factors that affect retirement decisions and transition experience, qualitative research is still needed to clarify people's subjective cognition of these decisions (Amabile, 2019). Overall, quantitative data will provide the overall pattern, and qualitative data will help explain the reasons behind that pattern.
+
+Quantitative Phase
+This study employs a cross-sectional quantitative survey design to effectively explore the relationship between CWO dimensions and financial retirement planning behaviors, as well as perceptions of bank-led financial education among private sector employees in Hong Kong.
+G*Power will be used to determine the minimum sample size of multiple regression. The significance level alpha = 0.05, and 80% is regarded as the lowest acceptable test efficacy (Gefen et al., 2011). The model includes four predictor variables and the effect size f2 = 0.15. Based on the above parameters, it is calculated that the required sample is about 100.
+Data collection will be through an online platform such as Google Forms. The data collection period is expected to be 4-6 weeks of active survey distribution through multiple channels. Community organization networks such as NGOs could help distribute the survey via member communication. Moreover, online survey platforms may be used to contact the target population in relevant forums. Besides, collaborating with companies that employ the target groups can support workplace-based distribution of the survey.
+The collected data will be preprocessed through editing, coding, and classification, and then descriptive statistical analysis will be carried out using SPSS or R. Finally, PLS-SEM analysis may be carried out using SmartPLS 4.0 to evaluate the reliability and validity of the measurement model and test the hypothesized relationships in the structural model.
+
+Qualitative Phase
+The second phase of the study will use in-depth interviews to comprehensively capture the real experiences and views of the research participants, in order to interpret the survey results in more depth. This phase is necessary because retirement planning is shaped not only by measurable variables, but also by personal experience, trust, habits, and context (Amabile, 2019). The interview guide will also follow a CWO-based structure so that the qualitative findings can explain the survey patterns and refine the practical recommendations for banks.
+
+In-depth Interview
+This study uses purposive sampling (Patton, 1990) to select respondents from different industries and management levels. The main data collection method is semi-structured one-on-one interviews, which usually last 60 to 120 minutes and follow a standardized interview process (Vough et al., 2015). In addition, follow-up questions will be raised during the interviews to obtain detailed information on key topics.
+Regarding the determination of interview sample size, Glaser and Strauss (1967) proposed that the sample size should continue to increase until no new theoretical insights appear, that is, until saturation is reached. Guest et al. (2006) reported saturation by the twelfth interview; Mason (2010) pointed out that many studies determine sample size using rounded numbers such as 10 or 20 rather than relying strictly on saturation; and Malterud et al. (2016) proposed that if the information provided by respondents is of high quality, the sample size can be relatively reduced. Based on the above research, this study estimates an interview sample of about 10 people.
+The qualitative sample will be selected purposively to capture variation across industries, job levels, and retirement planning experiences. The interviews will explore how respondents understand the role of banks, what type of bank-led education feels useful, and which barriers matter most in practice.
+The qualitative findings will also help refine the practical recommendations for banks. In other words, the qualitative phase is not just supplementary; it is the stage that turns the survey results into a usable proposal for action.
+
+(ii) Focus Group
+As a supplementary method to in-depth interviews, focus group interviews aim to stimulate views that are not easy to express in individual interviews and capture the views and consensus generated in group interaction.
+As for the sample size of focus groups, Morgan (1996) pointed out that the sample size of focus groups is based on information needs rather than statistical efficacy; Krueger and Casey (2009) proposed that 3-4 focus groups are usually enough, with 6-8 people in each group. This study will follow this design.
+Each focus group is about 90-120 minutes long. The researcher acts as the moderator, guides the dialogue according to the pre-designed discussion outline, and focuses on the exchange of views, disputes, and consensus among participants.
+
+Ethical Consideration
+This study will use validated quantitative and qualitative measurement tools, all of which are written in English. Since the research sample may include multiple language users, the questionnaire and interview materials may need to be translated to reduce possible deviations caused by cultural and language differences (Kim & Han, 2004).
+In-depth interviews will be conducted face-to-face, and professional experts may be invited to participate in translation work. In order to enhance the participation of respondents and related personnel, researchers may provide certain monetary rewards.
+As part of ethical consideration, no personally identifiable information should be collected. Participants should be able to withdraw at any point, and data should be stored on secure online platforms and in encrypted form.
+
+7. Potential Deliverable
+7.1 Academic Thesis: Documenting the research conclusion and implication of the CWO framework for bank-led financial education in Hong Kong before 30 June 2026.
+7.2 Policy Toolkit for Banks:
+A practical package that includes suggestions for financial education design and a simple evaluation framework to assess whether the education is effective.
+
+References
+Amabile, T. M. (2019). Understanding retirement requires getting inside people's stories: A call for more qualitative research. Work, Aging and Retirement, 5(3), 207-211. https://doi.org/10.1093/workar/waz007
+Bandara, S., & Durairatnam, S. (2025). Financial planning for retirement among private sector employees in Sri Lankan financial institutions. Technium Social Sciences Journal, 67, 290-302. https://doi.org/10.47577/tssj.v67i1.12210
+Blumberg, M., & Pringle, C. D. (1982). The missing opportunity in organizational research: Some implications for a theory of work performance. Academy of Management Review, 7(4), 560-569. https://doi.org/10.2307/257222
+Census and Statistics Department. (2009). Hong Kong standard industrial classification version 2.0. https://www.censtatd.gov.hk/en/data/stat_report/product/B2XX0005/att/B2XX0004012008XXXXB0300.pdf
+Census and Statistics Department. (2025, June 20). Quarterly report of employment and vacancies statistics. https://www.censtatd.gov.hk/en/wbr.html?ecode=B10500032025QQ01
+Chou, K.-L., Yu, K.-M., Chan, W.-S., Chan, A. C. M., Lum, T. Y. S., & Zhu, A. Y. F. (2014). Social and psychological barriers to private retirement savings in Hong Kong. Journal of Aging & Social Policy, 26(4), 308-323. https://doi.org/10.1080/08959420.2014.939840
+Civil Service Bureau. (n.d.). Civil service pension schemes. https://www.csb.gov.hk/english/admin/retirement/184.html
+Gefen, D., Rigdon, E. E., & Straub, D. (2011). Editor's comments: An update and extension to SEM guidelines for administrative and social science research. MIS Quarterly, 35(2), iii-xiv. https://doi.org/10.2307/23044042
+Glaser, B. G., & Strauss, A. L. (1967). The discovery of grounded theory: Strategies for qualitative research. Aldine Publishing Company.
+Han, R., & Sang, L. T. (2024). A research proposal to examine psychological factors that influence financial planning for retirement in China. Global Journal of Business, Economics and Management: Current Issues, 14(1), 49-69. https://doi.org/10.18844/gjbem.v14i1.9355
+Hershey, D. A., Henkens, K., & Van Dalen, H. P. (2010). Aging and financial planning for retirement: Interdisciplinary influences viewed through a cross-cultural lens. International Journal of Aging & Human Development, 70(1), 1-38. https://doi.org/10.2190/AG.70.1.a
+Hong Kong Monetary Authority. (2023). Annual report 2022. https://www.hkma.gov.hk/eng/data-publications-and-research/publications/annual-report/2022/
+Hwang, E. (2022, September 26). Do you have enough retirement savings? WTW. https://www.wtwco.com/en-hk/insights/2022/09/do-you-have-enough-retirement-savings
+Kim, M. T., & Han, H.-R. (2004). Cultural considerations in research instrumentation development. In M. Frank-Stromborg & S. J. Olsen (Eds.), Instruments for clinical health-care research (3rd ed., pp. 73-80). Jones & Bartlett Publishers.
+Krueger, R. A., & Casey, M. A. (2009). Focus groups: A practical guide for applied research (4th ed.). SAGE.
+Malterud, K., Siersma, V. D., & Guassora, A. D. (2016). Sample size in qualitative interview studies: Guided by information power. Qualitative Health Research, 26(13), 1753-1760. https://doi.org/10.1177/1049732315617444
+Mandatory Provident Fund Schemes Authority. (2023). Annual report 2022-23. https://www.mpfa.org.hk/en/info-centre/publications-articles/annual-reports/annual-report-2022-23
+Mason, M. (2010). Sample size and saturation in PhD studies using qualitative interviews. Forum Qualitative Sozialforschung/Forum: Qualitative Social Research, 11(3), Art. 8. https://doi.org/10.17169/fqs-11.3.1428
+Morgan, D. L. (1996). Focus groups. Annual Review of Sociology, 22(1), 129-152. https://doi.org/10.1146/annurev.soc.22.1.129
+Patton, M. Q. (1990). Qualitative evaluation and research methods (2nd ed.). Sage Publications.
+Vough, H. C., Bataille, C. D., Noh, S. C., & Lee, M. D. (2015). Going off script: How managers make sense of the ending of their careers. Journal of Management Studies, 52(3), 414-440. https://doi.org/10.1111/joms.12126
