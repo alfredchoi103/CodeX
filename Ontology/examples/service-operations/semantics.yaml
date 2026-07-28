@@ -1,0 +1,112 @@
+objectTypes:
+  - id: Party
+    label: Party
+    status: accepted
+    evidenceRefs: [evidence.domain-model]
+    key: [Party.partyId]
+    properties:
+      - id: Party.partyId
+        label: Party identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+      - id: Party.displayName
+        label: Display name
+        valueType: {kind: primitive, primitive: string}
+  - id: ServiceRequest
+    label: Service request
+    descriptions: {en: A request by a party for an offered service.}
+    status: accepted
+    evidenceRefs: [evidence.domain-model]
+    key: [ServiceRequest.requestId]
+    properties:
+      - id: ServiceRequest.requestId
+        label: Request identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+      - id: ServiceRequest.status
+        label: Request status
+        valueType: {kind: enum, values: [draft, submitted, inProgress, completed]}
+        default: draft
+  - id: ServiceOffering
+    label: Service offering
+    status: accepted
+    evidenceRefs: [evidence.domain-model]
+    key: [ServiceOffering.offeringId]
+    properties:
+      - id: ServiceOffering.offeringId
+        label: Offering identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+      - id: ServiceOffering.name
+        label: Offering name
+        valueType: {kind: primitive, primitive: string}
+        required: true
+  - id: WorkItem
+    label: Work item
+    status: accepted
+    evidenceRefs: [evidence.domain-model]
+    key: [WorkItem.workItemId]
+    properties:
+      - id: WorkItem.workItemId
+        label: Work item identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+      - id: WorkItem.status
+        label: Work item status
+        valueType: {kind: enum, values: [open, assigned, completed]}
+        default: open
+      - id: WorkItem.effort
+        label: Planned effort
+        valueType: {kind: measured, numericType: number, unit: hour}
+  - id: Resource
+    label: Resource
+    status: accepted
+    evidenceRefs: [evidence.domain-model]
+    key: [Resource.resourceId]
+    properties:
+      - id: Resource.resourceId
+        label: Resource identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+      - id: Resource.available
+        label: Available
+        valueType: {kind: primitive, primitive: boolean}
+        default: true
+links:
+  - id: Party.submits.ServiceRequest
+    label: Party submits service request
+    sourceRef: Party
+    targetRef: ServiceRequest
+    cardinality: one-to-many
+    evidenceRefs: [evidence.domain-model]
+  - id: ServiceRequest.requests.ServiceOffering
+    label: Request selects offering
+    sourceRef: ServiceRequest
+    targetRef: ServiceOffering
+    cardinality: many-to-one
+  - id: ServiceRequest.decomposesInto.WorkItem
+    label: Request decomposes into work items
+    sourceRef: ServiceRequest
+    targetRef: WorkItem
+    cardinality: one-to-many
+  - id: WorkItem.assignedTo.Resource
+    label: Work item assigned to resource
+    sourceRef: WorkItem
+    targetRef: Resource
+    cardinality: many-to-one
+interfaces:
+  - id: ServiceOperationsInterface
+    label: Service operations interface
+    propertyRefs: [ServiceRequest.requestId, ServiceRequest.status, WorkItem.status]
+    actionRefs: [submitServiceRequest, assignWorkItem, completeWorkItem]
+invariants:
+  - id: invariant.completedWorkHasResource
+    label: Completed work has an assigned resource
+    expression: WorkItem.status != 'completed' or assignedResource exists
+    evidenceRefs: [evidence.domain-model]
+businessTerms:
+  - id: term.serviceRequest
+    label: Service request
+    definition: A demand for delivery of a service offering.
+    synonyms: [request]
+    evidenceRefs: [evidence.domain-model]

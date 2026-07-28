@@ -1,0 +1,12 @@
+ontologyId: org.example.identity-baseline
+ontologyVersion: 2.0.0
+sourceDigest: sha256:c8ec82fbef9fc29d53a7f090318541a82ee6146bea2f54c2e6483035cac2ef6c
+records:
+  - {elementRef: Person, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/person, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Person]}
+  - {elementRef: Person.personId, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/person-id, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Person.personId]}
+  - {elementRef: Person.givenName, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/given-name, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Person.givenName]}
+  - {elementRef: Organization, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/organization, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Organization]}
+  - {elementRef: Organization.organizationId, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/organization-id, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Organization.organizationId]}
+  - {elementRef: Organization.registrationNumber, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/registration-number, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Organization.registrationNumber]}
+  - {elementRef: Person.memberOf.Organization, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/member-of, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Person.memberOf.Organization]}
+  - {elementRef: Organization.representedBy.Person, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v2/represented-by, evidenceRefs: [evidence.actor-conflict], verificationRefs: [test://evolution/v2/Organization.representedBy.Person]}

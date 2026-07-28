@@ -1,0 +1,14 @@
+@prefix ebo: <https://w3id.org/executable-business-ontology#> .
+@prefix ex: <https://example.org/ontology/invalid/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:object
+    a ebo:ObjectType ;
+    rdfs:label "Object without stable ID" ;
+    ebo:key ex:object.key .
+
+ex:object.key
+    a ebo:PropertyType ;
+    ebo:stableId "Object.key" ;
+    rdfs:label "Object key" ;
+    ebo:valueType "primitive:string" .

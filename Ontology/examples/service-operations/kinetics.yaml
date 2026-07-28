@@ -1,0 +1,137 @@
+actions:
+  - id: submitServiceRequest
+    label: Submit service request
+    status: accepted
+    evidenceRefs: [evidence.process]
+    parameters:
+      - id: submit.requestId
+        label: Request identifier
+        valueType: {kind: primitive, primitive: string}
+        required: true
+    preconditions: [ServiceRequest.status == 'draft']
+    effects:
+      - {targetRef: ServiceRequest, operation: transition, expression: "status = 'submitted'"}
+      - {targetRef: event.serviceRequestSubmitted, operation: emit, expression: emit request snapshot}
+    stateTransitions:
+      - {subjectRef: ServiceRequest, fromStateRef: request.draft, toStateRef: request.submitted}
+    permissionRefs: [policy.submitRequest]
+    auditRefs: [policy.auditActions]
+    sideEffectRefs: [event.serviceRequestSubmitted]
+    compensationRefs: [withdrawServiceRequest]
+  - id: assignWorkItem
+    label: Assign work item
+    status: accepted
+    evidenceRefs: [evidence.process]
+    parameters:
+      - id: assign.workItemId
+        label: Work item identifier
+        valueType: {kind: primitive, primitive: string}
+      - id: assign.resourceId
+        label: Resource identifier
+        valueType: {kind: primitive, primitive: string}
+    preconditions: [WorkItem.status == 'open', Resource.available == true, ServiceRequest.status == 'submitted']
+    effects:
+      - {targetRef: WorkItem, operation: transition, expression: "status = 'assigned'"}
+      - {targetRef: WorkItem.assignedTo.Resource, operation: update, expression: link selected resource}
+      - {targetRef: ServiceRequest, operation: transition, expression: "status = 'inProgress'"}
+    stateTransitions:
+      - {subjectRef: WorkItem, fromStateRef: work.open, toStateRef: work.assigned}
+      - {subjectRef: ServiceRequest, fromStateRef: request.submitted, toStateRef: request.inProgress}
+    permissionRefs: [policy.assignWork]
+    auditRefs: [policy.auditActions]
+  - id: completeWorkItem
+    label: Complete work item
+    status: accepted
+    evidenceRefs: [evidence.process]
+    parameters:
+      - id: complete.workItemId
+        label: Work item identifier
+        valueType: {kind: primitive, primitive: string}
+    preconditions: [WorkItem.status == 'assigned', ServiceRequest.status == 'inProgress']
+    effects:
+      - {targetRef: WorkItem, operation: transition, expression: "status = 'completed'"}
+      - {targetRef: ServiceRequest, operation: transition, expression: "status = 'completed'"}
+      - {targetRef: event.workItemCompleted, operation: emit, expression: emit completion snapshot}
+    stateTransitions:
+      - {subjectRef: WorkItem, fromStateRef: work.assigned, toStateRef: work.completed}
+      - {subjectRef: ServiceRequest, fromStateRef: request.inProgress, toStateRef: request.completed}
+    permissionRefs: [policy.completeWork]
+    auditRefs: [policy.auditActions]
+    sideEffectRefs: [event.workItemCompleted]
+    compensationRefs: [reopenWorkItem]
+  - id: withdrawServiceRequest
+    label: Withdraw submitted service request
+    status: accepted
+    evidenceRefs: [evidence.process]
+    parameters: []
+    preconditions: [ServiceRequest.status == 'submitted']
+    effects:
+      - {targetRef: ServiceRequest, operation: transition, expression: "status = 'draft'"}
+    stateTransitions:
+      - {subjectRef: ServiceRequest, fromStateRef: request.submitted, toStateRef: request.draft}
+    permissionRefs: [policy.submitRequest]
+    auditRefs: [policy.auditActions]
+  - id: reopenWorkItem
+    label: Reopen completed work item
+    status: accepted
+    evidenceRefs: [evidence.process]
+    parameters: []
+    preconditions: [WorkItem.status == 'completed']
+    effects:
+      - {targetRef: WorkItem, operation: transition, expression: "status = 'assigned'"}
+    stateTransitions:
+      - {subjectRef: WorkItem, fromStateRef: work.completed, toStateRef: work.assigned}
+    permissionRefs: [policy.completeWork]
+    auditRefs: [policy.auditActions]
+queries:
+  - id: query.openWorkItems
+    label: Open work items
+    evidenceRefs: [evidence.process]
+    parameters: []
+    resultRef: WorkItem
+    expression: WorkItem.status != 'completed'
+stateMachines:
+  - id: stateMachine.serviceRequest
+    label: Service request lifecycle
+    targetRef: ServiceRequest
+    subjectRef: ServiceRequest
+    initialStateRef: request.draft
+    evidenceRefs: [evidence.process]
+    states:
+      - {id: request.draft, label: Draft}
+      - {id: request.submitted, label: Submitted}
+      - {id: request.inProgress, label: In progress}
+      - {id: request.completed, label: Completed, terminal: true}
+    transitions:
+      - {id: request.submit, fromRef: request.draft, toRef: request.submitted, actionRef: submitServiceRequest}
+      - {id: request.startWork, fromRef: request.submitted, toRef: request.inProgress, actionRef: assignWorkItem}
+      - {id: request.finishWork, fromRef: request.inProgress, toRef: request.completed, actionRef: completeWorkItem}
+  - id: stateMachine.workItem
+    label: Work item lifecycle
+    targetRef: WorkItem
+    subjectRef: WorkItem
+    initialStateRef: work.open
+    states:
+      - {id: work.open, label: Open}
+      - {id: work.assigned, label: Assigned}
+      - {id: work.completed, label: Completed, terminal: true}
+    transitions:
+      - {id: work.assign, fromRef: work.open, toRef: work.assigned, actionRef: assignWorkItem}
+      - {id: work.complete, fromRef: work.assigned, toRef: work.completed, actionRef: completeWorkItem}
+domainEvents:
+  - id: event.serviceRequestSubmitted
+    label: Service request submitted
+    subjectRef: ServiceRequest
+    evidenceRefs: [evidence.events]
+    payload:
+      - id: event.requestId
+        label: Request identifier
+        valueType: {kind: primitive, primitive: string}
+  - id: event.workItemCompleted
+    label: Work item completed
+    subjectRef: WorkItem
+    evidenceRefs: [evidence.events]
+    payload:
+      - id: event.workItemId
+        label: Work item identifier
+        valueType: {kind: primitive, primitive: string}

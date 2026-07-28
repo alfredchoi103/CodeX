@@ -1,0 +1,149 @@
+fromVersion: 1.0.0
+toVersion: 2.0.0
+changes:
+  - id: change.actor-split
+    operation: split
+    compatibility: major
+    predecessorRefs: [Actor]
+    successorRefs: [Person, Organization]
+    originalDefinition: {id: Actor, meaning: identity-bearing people and organizations}
+    newDefinition: {ids: [Person, Organization], meaning: distinct natural and legal identity types}
+    errorCause: Cross-source review found incompatible identity rules for people and organizations.
+    evidenceRefs: [evidence.actor-conflict]
+    impactAnalysis:
+      data: [Actor rows require deterministic classification and ID mapping.]
+      api: [Actor payloads are read through a compatibility adapter during the window.]
+      action: [Identity actions must choose Person or Organization explicitly.]
+      query: [Actor queries use a union compatibility view until cutover.]
+      policy: [Authorization checks use the resolved concrete identity type.]
+      document: [The Actor glossary entry remains as retracted history.]
+      audit: [Historic Actor identifiers remain resolvable through lineage.]
+      consumers: [identity-api, reporting]
+    migrationStrategy: [coexist, dual-read, backfill, feature-flag, rollback]
+    backfill: Classify rows using registration evidence, persist a stable old-to-new ID map, and quarantine ambiguous rows.
+    rollback:
+      procedure: [Disable the v2 read flag and restore the immutable v1 Actor compatibility view.]
+      triggerConditions: [Identity classification mismatch exceeds the approved threshold.]
+      verificationSteps: [Verify legacy Actor lookup, audit continuity, and quarantined row counts.]
+    compatibilityWindow: 2026-08-01/2026-10-31
+    dualRead: {enabled: true, description: Compare v1 Actor resolution with v2 Person or Organization and alert on mismatch.}
+    dualWrite: {enabled: false, description: Dual-write is avoided because two authoritative identity representations can diverge.}
+    acceptanceEvidence: [test://evolution/actor-split, scenario://evolution/ambiguous-actor-quarantine]
+  - id: change.related-to-relink
+    operation: relink
+    compatibility: major
+    predecessorRefs: [Actor.relatedTo.Actor]
+    successorRefs: [Person.memberOf.Organization, Organization.representedBy.Person]
+    originalDefinition: {id: Actor.relatedTo.Actor, meaning: unspecified relationship}
+    newDefinition: {ids: [Person.memberOf.Organization, Organization.representedBy.Person], meaning: explicit membership and representation roles}
+    errorCause: The broad relation could not distinguish membership from representation.
+    evidenceRefs: [evidence.actor-conflict]
+    impactAnalysis:
+      data: [Relationship rows require role classification.]
+      api: [Generic relatedTo is accepted only by the compatibility adapter.]
+      action: [Relationship creation requires an explicit role.]
+      query: [Role-specific queries replace generic traversal.]
+      policy: [Role-specific authorization replaces generic Actor policy.]
+      document: [Old relation documentation is marked retracted.]
+      audit: [Original edges remain linked to migrated role edges.]
+      consumers: [identity-api, graph-query]
+    migrationStrategy: [coexist, alias, dual-read, backfill, rollback]
+    backfill: Derive role from membership and representation source evidence; quarantine unresolved generic edges.
+    rollback:
+      procedure: [Disable role-specific reads and expose the immutable v1 generic relation view.]
+      triggerConditions: [Role-specific traversal omits an approved legacy relationship.]
+      verificationSteps: [Compare generic traversal with the restored v1 relationship snapshot.]
+    compatibilityWindow: 2026-08-01/2026-10-31
+    dualRead: {enabled: true, description: Compare generic traversal results with the union of explicit role relations.}
+    dualWrite: {enabled: false, description: Generic reverse writes would discard the role distinction and are forbidden.}
+    acceptanceEvidence: [test://evolution/relink-coverage]
+  - id: change.actor-id-retract
+    operation: retract
+    compatibility: major
+    predecessorRefs: [Actor.actorId]
+    successorRefs: []
+    originalDefinition: {id: Actor.actorId, meaning: one identifier domain for all actors}
+    newDefinition: {meaning: no new Actor IDs; lineage maps historical IDs to concrete type IDs}
+    errorCause: A single unconstrained identifier domain hid identity-type collisions.
+    evidenceRefs: [evidence.actor-conflict]
+    impactAnalysis:
+      data: [Historical Actor IDs are retained only in the lineage map.]
+      api: [New writes require personId or organizationId.]
+      action: [Actor creation is rejected after cutover.]
+      query: [Legacy lookup resolves through the lineage table.]
+      policy: [Concrete identity policies replace Actor policy.]
+      document: [Actor.actorId remains documented as retracted.]
+      audit: [Historic identifiers remain immutable and explainable.]
+      consumers: [identity-api]
+    migrationStrategy: [alias, backfill, feature-flag, rollback]
+    backfill: Populate the immutable ID lineage table before rejecting new Actor identifiers.
+    rollback:
+      procedure: [Re-enable legacy Actor lookup without deleting v2 identifiers or lineage rows.]
+      triggerConditions: [Legacy identifier resolution fails its acceptance threshold.]
+      verificationSteps: [Verify both legacy lookup and immutable lineage audit records.]
+    compatibilityWindow: 2026-08-01/2026-10-31
+    dualRead: {enabled: true, description: Resolve legacy and concrete identifiers and compare identity ownership.}
+    dualWrite: {enabled: false, description: Writing new Actor IDs would extend the known error and is prohibited.}
+    acceptanceEvidence: [test://evolution/legacy-id-resolution]
+  - id: change.given-name-retype
+    operation: retype
+    compatibility: major
+    predecessorRefs: [Actor.givenName]
+    successorRefs: [Person.givenName]
+    originalDefinition: {id: Actor.givenName, owner: Actor, valueType: string}
+    newDefinition: {id: Person.givenName, owner: Person, valueType: string}
+    errorCause: The person-only given name was incorrectly attached to the mixed Actor type.
+    evidenceRefs: [evidence.actor-conflict]
+    impactAnalysis:
+      data: [Move person given names to Person records while retaining old field audit history.]
+      api: [Person payload owns givenName after cutover.]
+      action: [Person updates target the concrete property.]
+      query: [Legacy Actor name lookup resolves through lineage.]
+      policy: [Person data policy governs the moved property.]
+      document: [Actor.givenName remains documented as historical.]
+      audit: [Old property identifiers map to Person.givenName.]
+      consumers: [identity-api, reporting]
+    migrationStrategy: [alias, backfill, rollback]
+    backfill: Copy person-classified given names to Person records and retain the old-to-new property mapping.
+    rollback:
+      procedure: [Read given names through the immutable Actor compatibility view.]
+      triggerConditions: [Person given-name backfill coverage falls below the approved threshold.]
+      verificationSteps: [Compare Person and legacy Actor given-name counts and audit mappings.]
+    compatibilityWindow: 2026-08-01/2026-10-31
+    dualRead: {enabled: true, description: Compare Person.givenName with the legacy Actor projection.}
+    dualWrite: {enabled: false, description: Avoid restoring writes to the mixed Actor definition.}
+    acceptanceEvidence: [test://evolution/given-name-retype]
+  - id: change.registration-number-retype
+    operation: retype
+    compatibility: major
+    predecessorRefs: [Actor.registrationNumber]
+    successorRefs: [Organization.registrationNumber]
+    originalDefinition: {id: Actor.registrationNumber, owner: Actor, valueType: string}
+    newDefinition: {id: Organization.registrationNumber, owner: Organization, valueType: string}
+    errorCause: The organization-only registration number was incorrectly attached to the mixed Actor type.
+    evidenceRefs: [evidence.actor-conflict]
+    impactAnalysis:
+      data: [Move registration numbers to Organization records and retain historical mappings.]
+      api: [Organization payload owns registrationNumber after cutover.]
+      action: [Organization updates target the concrete property.]
+      query: [Legacy Actor registration lookup resolves through lineage.]
+      policy: [Organization identity policy governs registration numbers.]
+      document: [Actor.registrationNumber remains documented as historical.]
+      audit: [Old property identifiers map to Organization.registrationNumber.]
+      consumers: [identity-api, compliance]
+    migrationStrategy: [alias, backfill, rollback]
+    backfill: Copy organization-classified registration numbers and retain the property lineage mapping.
+    rollback:
+      procedure: [Read registration numbers through the immutable Actor compatibility view.]
+      triggerConditions: [Organization registration backfill fails uniqueness or coverage checks.]
+      verificationSteps: [Verify uniqueness, counts, and old-to-new audit mappings.]
+    compatibilityWindow: 2026-08-01/2026-10-31
+    dualRead: {enabled: true, description: Compare Organization.registrationNumber with the legacy Actor projection.}
+    dualWrite: {enabled: false, description: Avoid restoring writes to the mixed Actor definition.}
+    acceptanceEvidence: [test://evolution/registration-number-retype]
+lineage:
+  - {operation: split, predecessorRefs: [Actor], successorRefs: [Person, Organization]}
+  - {operation: retype, predecessorRefs: [Actor.givenName], successorRefs: [Person.givenName]}
+  - {operation: retype, predecessorRefs: [Actor.registrationNumber], successorRefs: [Organization.registrationNumber]}
+  - {operation: relink, predecessorRefs: [Actor.relatedTo.Actor], successorRefs: [Person.memberOf.Organization, Organization.representedBy.Person]}
+  - {operation: retract, predecessorRefs: [Actor.actorId], successorRefs: []}

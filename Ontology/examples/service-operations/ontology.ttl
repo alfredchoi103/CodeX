@@ -1,0 +1,302 @@
+@prefix ebo: <https://w3id.org/executable-business-ontology#> .
+@prefix ops: <https://example.org/ontology/service-operations/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ops:ontology
+    a owl:Ontology ;
+    rdfs:label "Service operations ontology" ;
+    ebo:ontologyId "org.example.service-operations" ;
+    ebo:ontologyVersion "1.0.0" ;
+    ebo:specVersion "1.0.0" ;
+    ebo:contentDigest "sha256:18a40e1a4932be1c0fd8fbbaf4c4ae7989214e5617a0121403124a4707ec1615" ;
+    owl:versionInfo "1.0.0" .
+
+ebo:ObjectType a owl:Class .
+ebo:PropertyType a owl:Class .
+ebo:LinkType a owl:Class .
+ebo:ActionType a owl:Class .
+ebo:DiscoveryClaim a owl:Class .
+ebo:QueryType a owl:Class .
+ebo:StateMachine a owl:Class .
+ebo:DomainEventType a owl:Class .
+ebo:EvidenceRecord a owl:Class .
+ebo:InterfaceType a owl:Class .
+ebo:Invariant a owl:Class .
+ebo:BusinessTerm a owl:Class .
+
+ebo:stableId a owl:DatatypeProperty .
+ebo:valueType a owl:DatatypeProperty .
+ebo:cardinality a owl:DatatypeProperty .
+ebo:precondition a owl:DatatypeProperty .
+ebo:effect a owl:DatatypeProperty .
+ebo:confidence a owl:DatatypeProperty .
+ebo:grade a owl:DatatypeProperty .
+ebo:falsifier a owl:DatatypeProperty .
+ebo:counterEvidenceAssessment a owl:DatatypeProperty .
+ebo:counterEvidenceLevel a owl:DatatypeProperty .
+ebo:counterEvidenceScore a owl:DatatypeProperty .
+ebo:key a owl:ObjectProperty .
+ebo:property a owl:ObjectProperty .
+ebo:source a owl:ObjectProperty .
+ebo:target a owl:ObjectProperty .
+ebo:auditRule a owl:ObjectProperty .
+ebo:supportingEvidence a owl:ObjectProperty .
+ebo:counterEvidence a owl:ObjectProperty .
+
+ops:Party
+    a ebo:ObjectType ;
+    ebo:stableId "Party" ;
+    rdfs:label "Party" ;
+    ebo:key ops:Party.partyId ;
+    ebo:property ops:Party.partyId, ops:Party.displayName .
+
+ops:Party.partyId
+    a ebo:PropertyType ;
+    ebo:stableId "Party.partyId" ;
+    rdfs:label "Party identifier" ;
+    ebo:valueType "primitive:string" .
+
+ops:Party.displayName
+    a ebo:PropertyType ;
+    ebo:stableId "Party.displayName" ;
+    rdfs:label "Display name" ;
+    ebo:valueType "primitive:string" .
+
+ops:ServiceRequest
+    a ebo:ObjectType ;
+    ebo:stableId "ServiceRequest" ;
+    rdfs:label "Service request" ;
+    ebo:key ops:ServiceRequest.requestId ;
+    ebo:property ops:ServiceRequest.requestId, ops:ServiceRequest.status .
+
+ops:ServiceRequest.requestId
+    a ebo:PropertyType ;
+    ebo:stableId "ServiceRequest.requestId" ;
+    rdfs:label "Request identifier" ;
+    ebo:valueType "primitive:string" .
+
+ops:ServiceRequest.status
+    a ebo:PropertyType ;
+    ebo:stableId "ServiceRequest.status" ;
+    rdfs:label "Request status" ;
+    ebo:valueType "enum:draft|submitted|inProgress|completed" .
+
+ops:ServiceOffering
+    a ebo:ObjectType ;
+    ebo:stableId "ServiceOffering" ;
+    rdfs:label "Service offering" ;
+    ebo:key ops:ServiceOffering.offeringId ;
+    ebo:property ops:ServiceOffering.offeringId, ops:ServiceOffering.name .
+
+ops:ServiceOffering.offeringId
+    a ebo:PropertyType ;
+    ebo:stableId "ServiceOffering.offeringId" ;
+    rdfs:label "Offering identifier" ;
+    ebo:valueType "primitive:string" .
+
+ops:ServiceOffering.name
+    a ebo:PropertyType ;
+    ebo:stableId "ServiceOffering.name" ;
+    rdfs:label "Offering name" ;
+    ebo:valueType "primitive:string" .
+
+ops:WorkItem
+    a ebo:ObjectType ;
+    ebo:stableId "WorkItem" ;
+    rdfs:label "Work item" ;
+    ebo:key ops:WorkItem.workItemId ;
+    ebo:property ops:WorkItem.workItemId, ops:WorkItem.status, ops:WorkItem.effort .
+
+ops:WorkItem.workItemId
+    a ebo:PropertyType ;
+    ebo:stableId "WorkItem.workItemId" ;
+    rdfs:label "Work item identifier" ;
+    ebo:valueType "primitive:string" .
+
+ops:WorkItem.status
+    a ebo:PropertyType ;
+    ebo:stableId "WorkItem.status" ;
+    rdfs:label "Work item status" ;
+    ebo:valueType "enum:open|assigned|completed" .
+
+ops:WorkItem.effort
+    a ebo:PropertyType ;
+    ebo:stableId "WorkItem.effort" ;
+    rdfs:label "Planned effort" ;
+    ebo:valueType "measured:number:hour" .
+
+ops:Resource
+    a ebo:ObjectType ;
+    ebo:stableId "Resource" ;
+    rdfs:label "Resource" ;
+    ebo:key ops:Resource.resourceId ;
+    ebo:property ops:Resource.resourceId, ops:Resource.available .
+
+ops:Resource.resourceId
+    a ebo:PropertyType ;
+    ebo:stableId "Resource.resourceId" ;
+    rdfs:label "Resource identifier" ;
+    ebo:valueType "primitive:string" .
+
+ops:Resource.available
+    a ebo:PropertyType ;
+    ebo:stableId "Resource.available" ;
+    rdfs:label "Available" ;
+    ebo:valueType "primitive:boolean" .
+
+ops:Party.submits.ServiceRequest
+    a ebo:LinkType ;
+    ebo:stableId "Party.submits.ServiceRequest" ;
+    rdfs:label "Party submits service request" ;
+    ebo:source ops:Party ;
+    ebo:target ops:ServiceRequest ;
+    ebo:cardinality "one-to-many" .
+
+ops:ServiceRequest.requests.ServiceOffering
+    a ebo:LinkType ;
+    ebo:stableId "ServiceRequest.requests.ServiceOffering" ;
+    rdfs:label "Request selects offering" ;
+    ebo:source ops:ServiceRequest ;
+    ebo:target ops:ServiceOffering ;
+    ebo:cardinality "many-to-one" .
+
+ops:ServiceRequest.decomposesInto.WorkItem
+    a ebo:LinkType ;
+    ebo:stableId "ServiceRequest.decomposesInto.WorkItem" ;
+    rdfs:label "Request decomposes into work items" ;
+    ebo:source ops:ServiceRequest ;
+    ebo:target ops:WorkItem ;
+    ebo:cardinality "one-to-many" .
+
+ops:WorkItem.assignedTo.Resource
+    a ebo:LinkType ;
+    ebo:stableId "WorkItem.assignedTo.Resource" ;
+    rdfs:label "Work item assigned to resource" ;
+    ebo:source ops:WorkItem ;
+    ebo:target ops:Resource ;
+    ebo:cardinality "many-to-one" .
+
+ops:submitServiceRequest
+    a ebo:ActionType ;
+    ebo:stableId "submitServiceRequest" ;
+    rdfs:label "Submit service request" ;
+    ebo:precondition "ServiceRequest.status == 'draft'" ;
+    ebo:effect "ServiceRequest.status = 'submitted'",
+        "emit event.serviceRequestSubmitted" ;
+    ebo:auditRule ops:policy.auditActions .
+
+ops:assignWorkItem
+    a ebo:ActionType ;
+    ebo:stableId "assignWorkItem" ;
+    rdfs:label "Assign work item" ;
+    ebo:precondition "WorkItem.status == 'open'", "Resource.available == true",
+        "ServiceRequest.status == 'submitted'" ;
+    ebo:effect "WorkItem.status = 'assigned'",
+        "update WorkItem.assignedTo.Resource", "ServiceRequest.status = 'inProgress'" ;
+    ebo:auditRule ops:policy.auditActions .
+
+ops:completeWorkItem
+    a ebo:ActionType ;
+    ebo:stableId "completeWorkItem" ;
+    rdfs:label "Complete work item" ;
+    ebo:precondition "WorkItem.status == 'assigned'", "ServiceRequest.status == 'inProgress'" ;
+    ebo:effect "WorkItem.status = 'completed'", "ServiceRequest.status = 'completed'",
+        "emit event.workItemCompleted" ;
+    ebo:auditRule ops:policy.auditActions .
+
+ops:withdrawServiceRequest
+    a ebo:ActionType ;
+    ebo:stableId "withdrawServiceRequest" ;
+    rdfs:label "Withdraw submitted service request" ;
+    ebo:precondition "ServiceRequest.status == 'submitted'" ;
+    ebo:effect "ServiceRequest.status = 'draft'" ;
+    ebo:auditRule ops:policy.auditActions .
+
+ops:reopenWorkItem
+    a ebo:ActionType ;
+    ebo:stableId "reopenWorkItem" ;
+    rdfs:label "Reopen completed work item" ;
+    ebo:precondition "WorkItem.status == 'completed'" ;
+    ebo:effect "WorkItem.status = 'assigned'" ;
+    ebo:auditRule ops:policy.auditActions .
+
+ops:query.openWorkItems
+    a ebo:QueryType ;
+    ebo:stableId "query.openWorkItems" ;
+    rdfs:label "Open work items" ;
+    ebo:resultType ops:WorkItem ;
+    ebo:expression "WorkItem.status != 'completed'" .
+
+ops:ServiceOperationsInterface
+    a ebo:InterfaceType ;
+    ebo:stableId "ServiceOperationsInterface" ;
+    rdfs:label "Service operations interface" ;
+    ebo:property ops:ServiceRequest.requestId, ops:ServiceRequest.status,
+        ops:WorkItem.status ;
+    ebo:action ops:submitServiceRequest, ops:assignWorkItem,
+        ops:completeWorkItem .
+
+ops:invariant.completedWorkHasResource
+    a ebo:Invariant ;
+    ebo:stableId "invariant.completedWorkHasResource" ;
+    rdfs:label "Completed work has an assigned resource" ;
+    ebo:expression "WorkItem.status != 'completed' or assignedResource exists" ;
+    ebo:supportingEvidence ops:evidence.domain-model .
+
+ops:term.serviceRequest
+    a ebo:BusinessTerm ;
+    ebo:stableId "term.serviceRequest" ;
+    rdfs:label "Service request" ;
+    ebo:definition "A demand for delivery of a service offering." ;
+    ebo:synonym "request" ;
+    ebo:supportingEvidence ops:evidence.domain-model .
+
+ops:stateMachine.serviceRequest
+    a ebo:StateMachine ;
+    ebo:stableId "stateMachine.serviceRequest" ;
+    rdfs:label "Service request lifecycle" ;
+    ebo:targetType ops:ServiceRequest ;
+    ebo:subjectType ops:ServiceRequest ;
+    ebo:initialState "request.draft" .
+
+ops:stateMachine.workItem
+    a ebo:StateMachine ;
+    ebo:stableId "stateMachine.workItem" ;
+    rdfs:label "Work item lifecycle" ;
+    ebo:targetType ops:WorkItem ;
+    ebo:subjectType ops:WorkItem ;
+    ebo:initialState "work.open" .
+
+ops:event.serviceRequestSubmitted
+    a ebo:DomainEventType ;
+    ebo:stableId "event.serviceRequestSubmitted" ;
+    rdfs:label "Service request submitted" ;
+    ebo:subjectType ops:ServiceRequest .
+
+ops:event.workItemCompleted
+    a ebo:DomainEventType ;
+    ebo:stableId "event.workItemCompleted" ;
+    rdfs:label "Work item completed" ;
+    ebo:subjectType ops:WorkItem .
+
+ops:evidence.domain-model
+    a ebo:EvidenceRecord ;
+    ebo:stableId "evidence.domain-model" ;
+    rdfs:label "Domain model evidence" ;
+    ebo:sourceUri <https://example.org/provenance/domain-model> .
+
+ops:claim.projection-demo
+    a ebo:DiscoveryClaim ;
+    ebo:stableId "claim.projection-demo" ;
+    rdfs:label "Projection demonstration claim"@en ;
+    ebo:claimStatement "Projection-only demonstration: accepted object types are supported by the reviewed domain model." ;
+    ebo:supportingEvidence ops:evidence.domain-model ;
+    ebo:confidence 91 ;
+    ebo:grade "A" ;
+    ebo:falsifier "A reviewed domain-model source contradicts one or more projected object types." ;
+    ebo:counterEvidenceLevel "none" ;
+    ebo:counterEvidenceScore 100 ;
+    ebo:counterEvidenceAssessment "No material conflict: the reviewed domain-model search found no contradiction within projection scope; runtime behavior remains outside scope. Rubric score: 100." .

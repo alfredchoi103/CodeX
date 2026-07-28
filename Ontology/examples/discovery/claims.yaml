@@ -1,0 +1,121 @@
+# Fully synthetic example using illustrative evidence; not admissible for governance decisions.
+ontologyId: org.example.service-discovery
+generatedAt: "2026-07-27T11:00:00Z"
+claims:
+  - id: claim.serviceRequestEntity
+    label: Service request is a governed business object
+    statement: ServiceRequest is a candidate object type keyed by requestId with an explicit lifecycle.
+    status: proposed
+    reasoningRules:
+      - ruleId: rule.crossSourceEntity
+        explanation: A stable database key, API resource, code model, and runtime events jointly indicate an entity candidate.
+    evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted]
+    counterEvidenceRefs: []
+    counterEvidenceLevel: none
+    counterEvidenceAssessment: "No material conflict: recorded searches found no source contradicting identity or lifecycle; event ordering only limits runtime consistency scope. Rubric score: 100."
+    alternatives:
+      - ServiceRequest could be an API transfer object rather than an independently governed business object.
+    confidenceDimensions: {crossSourceAgreement: 95, evidenceCoverage: 95, runtimeSupport: 85, semanticSpecificity: 90, constraintConsistency: 95, counterEvidenceAssessment: 100}
+    confidenceRationale:
+      crossSourceAgreement: {score: 95, rationale: "Database, API, code, and event observations agree on identity.", evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted], deductions: [The config source does not address entity identity.]}
+      evidenceCoverage: {score: 95, rationale: Identity and lifecycle are covered across static and runtime sources., evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted], deductions: [No delete or archival path was sampled.]}
+      runtimeSupport: {score: 85, rationale: Runtime events demonstrate service requests in operation., evidenceRefs: [observation.eventLog.requestSubmitted], deductions: [The sample covers submitted events but not every lifecycle state.]}
+      semanticSpecificity: {score: 90, rationale: The statement names the candidate type key and lifecycle boundary., evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest], deductions: [Ownership and archival semantics remain unspecified.]}
+      constraintConsistency: {score: 95, rationale: Database states and code submission guard are consistent., evidenceRefs: [observation.database.serviceRequests, observation.code.requestModel], deductions: [Transitions after submission were not inspected in code.]}
+      counterEvidenceAssessment: {score: 100, rationale: A recorded cross-source search found no material conflict with the bounded claim., evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted], deductions: []}
+    confidence: 93
+    grade: A
+    falsifiers:
+      - Show that requestId is regenerated independently by each adapter and has no shared identity.
+    validationQuestions:
+      - Does requestId remain stable across storage, API responses, and emitted events?
+    capabilityQuestions:
+      - Can the ontology explain and validate every allowed service-request lifecycle transition?
+    provenance: {extractorVersion: discovery-pipeline-1.0.0, ruleSetVersion: discovery-rules-1.0.0, generatedAt: "2026-07-27T11:00:00Z"}
+  - id: claim.submitAction
+    label: Submit service request is a business action
+    statement: submitServiceRequest is a candidate action with a draft-state precondition and an emitted domain event.
+    status: proposed
+    reasoningRules:
+      - rule.actionTriangulation
+    evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted]
+    counterEvidenceRefs: [observation.eventLog.requestSubmitted]
+    counterEvidenceLevel: minor
+    counterEvidenceAssessment: "Minor unresolved conflict: runtime read-model lag weakens an immediate-postcondition interpretation but not action existence. Rubric score: 75."
+    alternatives:
+      - The operation could be an integration command whose business action occurs asynchronously elsewhere.
+    confidenceDimensions: {crossSourceAgreement: 85, evidenceCoverage: 80, runtimeSupport: 70, semanticSpecificity: 80, constraintConsistency: 75, counterEvidenceAssessment: 75}
+    confidenceRationale:
+      crossSourceAgreement: {score: 85, rationale: "API, code, and event sources agree that submission occurs.", evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted], deductions: [The sources differ on when read visibility is achieved.]}
+      evidenceCoverage: {score: 80, rationale: Inputs precondition and event effect are observed., evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted], deductions: [Failure and compensation paths were not observed at runtime.]}
+      runtimeSupport: {score: 70, rationale: Sampled submitted events support execution of the action., evidenceRefs: [observation.eventLog.requestSubmitted], deductions: [Runtime samples reveal lag and do not prove transactional coupling.]}
+      semanticSpecificity: {score: 80, rationale: The action precondition and emitted event are named., evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel], deductions: [The exact atomicity boundary remains unspecified.]}
+      constraintConsistency: {score: 75, rationale: Draft guard and duplicate response are compatible constraints., evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel], deductions: [The relationship between duplicate detection and persistence is unverified.]}
+      counterEvidenceAssessment: {score: 75, rationale: Read-model lag is a minor unresolved conflict for immediate visibility., evidenceRefs: [observation.eventLog.requestSubmitted], deductions: [The lag prevents claiming an immediate postcondition.]}
+    confidence: 78
+    grade: B
+    falsifiers:
+      - Demonstrate that the endpoint only enqueues opaque work and never enforces the draft precondition.
+    validationQuestions:
+      - Is event publication transactionally coupled to persistence or compensated on failure?
+    capabilityQuestions:
+      - Can the ontology distinguish validation failure, duplicate conflict, and successful submission?
+    provenance: {extractorVersion: discovery-pipeline-1.0.0, ruleSetVersion: discovery-rules-1.0.0, generatedAt: "2026-07-27T11:00:00Z"}
+  - id: claim.auditRetentionPolicy
+    label: Audit retention policy is 365 days
+    statement: A candidate operational policy retains audit data for 365 days.
+    status: proposed
+    reasoningRules:
+      - rule.configPolicyCandidate
+    evidenceRefs: [observation.config.retention]
+    counterEvidenceRefs: []
+    counterEvidenceLevel: minor
+    counterEvidenceAssessment: "Minor unresolved uncertainty: no contradictory configuration was sampled, but enforcement code and retained records were not inspected. Rubric score: 75."
+    alternatives:
+      - The value may be a deployment default overridden by an external retention service.
+    confidenceDimensions: {crossSourceAgreement: 60, evidenceCoverage: 65, runtimeSupport: 40, semanticSpecificity: 70, constraintConsistency: 65, counterEvidenceAssessment: 75}
+    confidenceRationale:
+      crossSourceAgreement: {score: 60, rationale: One configuration source states the duration and no independent source confirms it., evidenceRefs: [observation.config.retention], deductions: [No code policy or runtime record independently confirms 365 days.]}
+      evidenceCoverage: {score: 65, rationale: Duration is covered but enforcement scope and exceptions are not., evidenceRefs: [observation.config.retention], deductions: [Deletion mechanism scope and overrides were not inspected.]}
+      runtimeSupport: {score: 40, rationale: No runtime deletion or retained-record observation supports enforcement., evidenceRefs: [], deductions: [Only static configuration was collected.]}
+      semanticSpecificity: {score: 70, rationale: The candidate states audit scope and a concrete duration., evidenceRefs: [observation.config.retention], deductions: [Start time exceptions and legal holds are unspecified.]}
+      constraintConsistency: {score: 65, rationale: The observed configuration is internally consistent., evidenceRefs: [observation.config.retention], deductions: [Consistency with external storage lifecycle rules is unknown.]}
+      counterEvidenceAssessment: {score: 75, rationale: Search found no conflict but leaves a minor unresolved enforcement uncertainty., evidenceRefs: [observation.config.retention], deductions: [Runtime and external override sources were not searched.]}
+    confidence: 61
+    grade: C
+    falsifiers:
+      - Find a production override or deletion job that applies a different retention duration.
+    validationQuestions:
+      - Which runtime component enforces deletion after 365 days?
+    capabilityQuestions:
+      - Can the ontology state retention scope, duration, enforcement, and exceptions?
+    provenance: {extractorVersion: discovery-pipeline-1.0.0, ruleSetVersion: discovery-rules-1.0.0, generatedAt: "2026-07-27T11:00:00Z"}
+  - id: claim.automaticAssignment
+    label: Work items are automatically assigned
+    statement: Automatic work-item assignment is a low-confidence candidate capability.
+    status: proposed
+    reasoningRules:
+      - rule.featureFlagCapability
+    evidenceRefs: [observation.config.retention]
+    counterEvidenceRefs: [observation.config.retention]
+    counterEvidenceLevel: coreContradiction
+    counterEvidenceAssessment: "Core contradiction: the only observed production configuration disables the claimed capability. Rubric score: 0."
+    alternatives:
+      - Assignment is manual in production and the disabled flag only preserves dormant code.
+    confidenceDimensions: {crossSourceAgreement: 35, evidenceCoverage: 40, runtimeSupport: 20, semanticSpecificity: 50, constraintConsistency: 40, counterEvidenceAssessment: 0}
+    confidenceRationale:
+      crossSourceAgreement: {score: 35, rationale: No independent source supports automatic assignment., evidenceRefs: [observation.config.retention], deductions: [The only source contradicts enabled production behavior.]}
+      evidenceCoverage: {score: 40, rationale: A feature flag is observed but implementation and execution are not., evidenceRefs: [observation.config.retention], deductions: [No code path or assignment event was sampled.]}
+      runtimeSupport: {score: 20, rationale: No runtime observation demonstrates automatic assignment., evidenceRefs: [], deductions: [Event logs in the graph contain submission rather than assignment.]}
+      semanticSpecificity: {score: 50, rationale: The candidate names the capability but not triggering or assignment rules., evidenceRefs: [observation.config.retention], deductions: [Actor selection conditions and outcomes are unspecified.]}
+      constraintConsistency: {score: 40, rationale: The proposed capability conflicts with the disabled production flag., evidenceRefs: [observation.config.retention], deductions: [Enabled behavior cannot be reconciled with the observed deployment setting.]}
+      counterEvidenceAssessment: {score: 0, rationale: The disabled flag is a core contradiction to enabled automatic assignment., evidenceRefs: [observation.config.retention], deductions: [The core production claim is directly contradicted.]}
+    confidence: 32
+    grade: D
+    falsifiers:
+      - Confirm that no automatic-assignment execution occurs in production event logs.
+    validationQuestions:
+      - Is the feature enabled in any governed environment or tenant?
+    capabilityQuestions:
+      - Should dormant, disabled capabilities appear in the Baseline Ontology?
+    provenance: {extractorVersion: discovery-pipeline-1.0.0, ruleSetVersion: discovery-rules-1.0.0, model: semantic-matcher-2026-07, generatedAt: "2026-07-27T11:00:00Z"}

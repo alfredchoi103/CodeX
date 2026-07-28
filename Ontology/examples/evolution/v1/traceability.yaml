@@ -1,0 +1,9 @@
+ontologyId: org.example.identity-baseline
+ontologyVersion: 1.0.0
+sourceDigest: sha256:b7e46032b82fa629e7930af4d66e60d7dc64d0dc03105d5e59e5172b2a460049
+records:
+  - {elementRef: Actor, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v1/actor, evidenceRefs: [evidence.v1-model], verificationRefs: [test://evolution/v1/Actor]}
+  - {elementRef: Actor.actorId, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v1/actor-id, evidenceRefs: [evidence.v1-model], verificationRefs: [test://evolution/v1/Actor.actorId]}
+  - {elementRef: Actor.givenName, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v1/given-name, evidenceRefs: [evidence.v1-model], verificationRefs: [test://evolution/v1/Actor.givenName]}
+  - {elementRef: Actor.registrationNumber, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v1/registration-number, evidenceRefs: [evidence.v1-model], verificationRefs: [test://evolution/v1/Actor.registrationNumber]}
+  - {elementRef: Actor.relatedTo.Actor, documentationRef: docs/evolution-governance.md#v1-v2-walkthrough, extensionPointRef: extension://identity/v1/related-to, evidenceRefs: [evidence.v1-model], verificationRefs: [test://evolution/v1/Actor.relatedTo.Actor]}

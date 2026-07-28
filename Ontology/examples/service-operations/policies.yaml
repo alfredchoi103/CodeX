@@ -1,0 +1,38 @@
+authorizationPolicies:
+  - id: policy.submitRequest
+    label: Submit request authorization
+    targetRefs: [submitServiceRequest, withdrawServiceRequest]
+    rule: An authenticated party may submit its own request.
+    status: accepted
+    evidenceRefs: [evidence.process]
+  - id: policy.assignWork
+    label: Assign work authorization
+    targetRefs: [assignWorkItem]
+    rule: An authorized coordinator may assign available resources.
+    evidenceRefs: [evidence.process]
+  - id: policy.completeWork
+    label: Complete work authorization
+    targetRefs: [completeWorkItem, reopenWorkItem]
+    rule: The assigned resource or coordinator may complete work.
+    evidenceRefs: [evidence.process]
+auditPolicies:
+  - id: policy.auditActions
+    label: Audit operational actions
+    targetRefs: [submitServiceRequest, assignWorkItem, completeWorkItem, withdrawServiceRequest, reopenWorkItem]
+    rule: Record actor, timestamp, inputs, decision, and outcome.
+    severity: error
+    evidenceRefs: [evidence.process]
+qualityPolicies:
+  - id: policy.requestIdentifiers
+    label: Request identifier quality
+    targetRefs: [ServiceRequest.requestId]
+    rule: Identifier is present and unique within the namespace.
+    severity: error
+    evidenceRefs: [evidence.database]
+compliancePolicies:
+  - id: policy.dataMinimization
+    label: Data minimization
+    targetRefs: [Party, ServiceRequest]
+    rule: Retain only attributes needed to deliver and evidence the service.
+    severity: warning
+    evidenceRefs: [evidence.governance]

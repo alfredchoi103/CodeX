@@ -1,0 +1,51 @@
+dataBindings:
+  - id: binding.serviceRequestTable
+    targetRef: ServiceRequest
+    direction: bidirectional
+    evidenceRefs: [evidence.database]
+    source: {system: operations-store, resource: service_requests}
+    mappings:
+      - {ontologyPath: ServiceRequest.requestId, sourcePath: request_id}
+      - {ontologyPath: ServiceRequest.status, sourcePath: status}
+apiBindings:
+  - id: binding.submitRequestApi
+    targetRef: submitServiceRequest
+    direction: inbound
+    evidenceRefs: [evidence.api]
+    operation: {specUri: "https://example.org/openapi/service-operations.yaml", operationId: submitServiceRequest}
+    mappings:
+      - {ontologyPath: submit.requestId, sourcePath: request.body.requestId}
+codeBindings:
+  - id: binding.workItemCode
+    targetRef: WorkItem
+    direction: bidirectional
+    evidenceRefs: [evidence.code]
+    symbol: {language: python, qualifiedName: service_operations.models.WorkItem}
+    mappings:
+      - {ontologyPath: WorkItem.workItemId, sourcePath: work_item_id}
+eventBindings:
+  - id: binding.workCompletedEvent
+    targetRef: event.workItemCompleted
+    direction: outbound
+    evidenceRefs: [evidence.events]
+    channel: {protocol: cloud-events, name: service-operations.work-item-completed}
+    mappings:
+      - {ontologyPath: event.workItemId, sourcePath: data.workItemId}
+identityResolution:
+  - id: identity.request
+    label: Resolve request identity
+    targetRefs: [ServiceRequest]
+    rule: Match the stable request identifier exactly.
+    evidenceRefs: [evidence.database]
+syncPolicies:
+  - id: sync.request
+    label: Synchronize requests
+    targetRefs: [binding.serviceRequestTable]
+    rule: Apply ordered updates and retain source timestamps.
+    evidenceRefs: [evidence.database]
+consistencyPolicies:
+  - id: consistency.request
+    label: Request consistency
+    targetRefs: [ServiceRequest]
+    rule: Reject updates that violate lifecycle transitions.
+    evidenceRefs: [evidence.process]

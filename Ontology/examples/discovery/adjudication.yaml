@@ -1,0 +1,31 @@
+ontologyId: org.example.service-discovery
+decidedAt: "2026-07-27T12:00:00Z"
+reviewer:
+  name: Discovery Governance Board
+  role: human-reviewer
+decisions:
+  - claimRef: claim.serviceRequestEntity
+    outcome: accepted
+    rationale: Cross-source identity and lifecycle evidence is sufficient for baseline promotion.
+    evidenceRefs: [observation.database.serviceRequests, observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted]
+    resultingElementRefs: [ServiceRequest]
+    conditions: [Retain lifecycle limitations in the promoted baseline documentation.]
+    actions: [Create a governed baseline proposal for ServiceRequest.]
+  - claimRef: claim.submitAction
+    outcome: needsRevision
+    rationale: The action exists, but transactional event coupling and read visibility require clarification.
+    evidenceRefs: [observation.openapi.submitRequest, observation.code.requestModel, observation.eventLog.requestSubmitted]
+    conditions: [Document asynchronous visibility and failure semantics.]
+    actions: [Revise the candidate before another governance review.]
+  - claimRef: claim.auditRetentionPolicy
+    outcome: deferred
+    rationale: Static configuration alone does not demonstrate enforcement or override precedence.
+    evidenceRefs: [observation.config.retention]
+    conditions: [Obtain runtime deletion evidence and external lifecycle configuration.]
+    actions: [Keep the claim proposed without baseline promotion.]
+  - claimRef: claim.automaticAssignment
+    outcome: rejected
+    rationale: The only governed observation directly contradicts enabled automatic assignment.
+    evidenceRefs: [observation.config.retention]
+    conditions: []
+    actions: [Record rejection while preserving the immutable proposed claim snapshot.]

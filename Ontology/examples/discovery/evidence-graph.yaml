@@ -1,0 +1,54 @@
+# Fully synthetic example with illustrative sources and hashes; not admissible as real evidence.
+ontologyId: org.example.service-discovery
+generatedAt: "2026-07-27T11:00:00Z"
+observations:
+  - id: observation.database.serviceRequests
+    kind: database
+    sourceUri: https://example.org/snapshots/operations-store.sql
+    location: public.service_requests columns and constraints
+    capturedAt: "2026-07-27T10:00:00Z"
+    contentHash: sha256:8111111111111111111111111111111111111111111111111111111111111111
+    extractorVersion: pg-catalog-2.1.0
+    observedFacts:
+      - The service_requests table has request_id as a non-null unique key.
+      - The status column is constrained to draft, submitted, in_progress, or completed.
+  - id: observation.openapi.submitRequest
+    kind: openapi
+    sourceUri: https://example.org/openapi/service-operations.yaml
+    location: paths./service-requests.post operationId submitServiceRequest
+    capturedAt: "2026-07-27T10:05:00Z"
+    contentHash: sha256:8222222222222222222222222222222222222222222222222222222222222222
+    extractorVersion: openapi-reader-1.4.0
+    observedFacts:
+      - The operation accepts offeringId and partyId and returns requestId.
+      - A 409 response is documented for duplicate active requests.
+  - id: observation.code.requestModel
+    kind: code
+    sourceUri: https://example.org/source/service-operations/tree/7d3a9c2
+    location: src/service_operations/models.py:ServiceRequest
+    capturedAt: "2026-07-27T10:10:00Z"
+    contentHash: sha256:8333333333333333333333333333333333333333333333333333333333333333
+    extractorVersion: python-ast-3.2.0
+    observedFacts:
+      - ServiceRequest.submit checks that current status is draft.
+      - ServiceRequest.submit emits ServiceRequestSubmitted after persistence.
+  - id: observation.config.retention
+    kind: config
+    sourceUri: https://example.org/config/service-operations/production.yaml
+    location: audit.retentionDays and features.autoAssignment
+    capturedAt: "2026-07-27T10:15:00Z"
+    contentHash: sha256:8444444444444444444444444444444444444444444444444444444444444444
+    extractorVersion: yaml-config-1.1.0
+    observedFacts:
+      - Audit retention is configured as 365 days.
+      - Automatic assignment is disabled in production.
+  - id: observation.eventLog.requestSubmitted
+    kind: eventLog
+    sourceUri: https://example.org/log-export/service-operations/2026-07-26.ndjson
+    location: channel service-request-submitted records 1200 through 1499
+    capturedAt: "2026-07-27T10:20:00Z"
+    contentHash: sha256:8555555555555555555555555555555555555555555555555555555555555555
+    extractorVersion: cloudevents-sampler-2.0.0
+    observedFacts:
+      - Every sampled event contains requestId, partyId, offeringId, and occurredAt.
+      - Two sampled events occurred before the corresponding read-model update.

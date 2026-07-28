@@ -1,0 +1,97 @@
+evidenceRecords:
+  - id: evidence.domain-model
+    sourceUri: https://example.org/provenance/domain-model
+    location: sections 1-4
+    capturedAt: "2026-07-27T09:00:00Z"
+    contentHash: sha256:1111111111111111111111111111111111111111111111111111111111111111
+    extractorVersion: manual-review-1
+    kind: document
+  - id: evidence.process
+    sourceUri: https://example.org/provenance/process-model
+    location: workflow definitions
+    capturedAt: "2026-07-27T09:05:00Z"
+    contentHash: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    extractorVersion: manual-review-1
+    kind: document
+  - id: evidence.database
+    sourceUri: https://example.org/provenance/database-catalog
+    location: operations-store schema snapshot
+    capturedAt: "2026-07-27T09:10:00Z"
+    contentHash: sha256:3333333333333333333333333333333333333333333333333333333333333333
+    extractorVersion: catalog-2.1
+    kind: database
+  - id: evidence.api
+    sourceUri: https://example.org/openapi/service-operations.yaml
+    location: operation submitServiceRequest
+    capturedAt: "2026-07-27T09:15:00Z"
+    contentHash: sha256:4444444444444444444444444444444444444444444444444444444444444444
+    extractorVersion: openapi-1.0
+    kind: api
+  - id: evidence.code
+    sourceUri: https://example.org/provenance/source/service-operations
+    location: service_operations.models.WorkItem
+    capturedAt: "2026-07-27T09:20:00Z"
+    contentHash: sha256:5555555555555555555555555555555555555555555555555555555555555555
+    extractorVersion: ast-3.0
+    kind: code
+  - id: evidence.events
+    sourceUri: https://example.org/provenance/event-catalog
+    location: service operations channels
+    capturedAt: "2026-07-27T09:25:00Z"
+    contentHash: sha256:6666666666666666666666666666666666666666666666666666666666666666
+    extractorVersion: event-catalog-1
+    kind: event
+  - id: evidence.governance
+    sourceUri: https://example.org/provenance/governance-standard
+    location: data minimization section
+    capturedAt: "2026-07-27T09:30:00Z"
+    contentHash: sha256:7777777777777777777777777777777777777777777777777777777777777777
+    extractorVersion: manual-review-1
+    kind: document
+discoveryClaims:
+  - id: claim.projection-demo
+    label: Projection demonstration claim
+    statement: "Projection-only demonstration: accepted object types are supported by the reviewed domain model."
+    status: proposed
+    reasoningRules:
+      - rule.projectionEvidence
+    evidenceRefs: [evidence.domain-model]
+    counterEvidenceRefs: []
+    counterEvidenceLevel: none
+    counterEvidenceAssessment: "No material conflict: the reviewed domain-model search found no contradiction within projection scope; runtime behavior remains outside scope. Rubric score: 100."
+    alternatives:
+      - The projection may reflect a documentation model rather than deployed runtime behavior.
+    confidenceDimensions:
+      crossSourceAgreement: 95
+      evidenceCoverage: 95
+      runtimeSupport: 70
+      semanticSpecificity: 95
+      constraintConsistency: 95
+      counterEvidenceAssessment: 100
+    confidenceRationale:
+      crossSourceAgreement: {score: 95, rationale: Reviewed model sections consistently define the projected object types., evidenceRefs: [evidence.domain-model], deductions: [Only one governed artifact was available.]}
+      evidenceCoverage: {score: 95, rationale: Every projected object type is covered by the reviewed model., evidenceRefs: [evidence.domain-model], deductions: [Runtime bindings are outside this bounded claim.]}
+      runtimeSupport: {score: 70, rationale: The claim concerns a projection and has no direct runtime observation., evidenceRefs: [], deductions: [No execution evidence was used for runtime conformance.]}
+      semanticSpecificity: {score: 95, rationale: The claim is explicitly limited to accepted projected object types., evidenceRefs: [evidence.domain-model], deductions: [It does not assert runtime behavior.]}
+      constraintConsistency: {score: 95, rationale: Reviewed object definitions do not conflict within projection scope., evidenceRefs: [evidence.domain-model], deductions: [Cross-artifact constraint consistency was not assessed.]}
+      counterEvidenceAssessment: {score: 100, rationale: A recorded review found no material conflict in the bounded source., evidenceRefs: [evidence.domain-model], deductions: []}
+    confidence: 91
+    grade: A
+    falsifiers:
+      - A reviewed domain-model source contradicts one or more projected object types.
+    validationQuestions:
+      - Do all projected object types retain stable identity in the reviewed source?
+    capabilityQuestions:
+      - Can the projection trace each accepted object type to its reviewed evidence?
+    provenance:
+      extractorVersion: manual-review-1
+      ruleSetVersion: projection-rules-1.0.0
+      generatedAt: "2026-07-27T10:00:00Z"
+approvals:
+  - id: approval.initial
+    scopeRefs: [ServiceOperationsInterface, policy.dataMinimization]
+    approvedElementRefs: [Party, Party.partyId, Party.displayName, ServiceRequest, ServiceRequest.requestId, ServiceRequest.status, ServiceOffering, ServiceOffering.offeringId, ServiceOffering.name, WorkItem, WorkItem.workItemId, WorkItem.status, WorkItem.effort, Resource, Resource.resourceId, Resource.available, Party.submits.ServiceRequest, ServiceRequest.requests.ServiceOffering, ServiceRequest.decomposesInto.WorkItem, WorkItem.assignedTo.Resource, ServiceOperationsInterface, invariant.completedWorkHasResource, term.serviceRequest, submitServiceRequest, assignWorkItem, completeWorkItem, withdrawServiceRequest, reopenWorkItem, query.openWorkItems, stateMachine.serviceRequest, request.draft, request.submitted, request.inProgress, request.completed, request.submit, request.startWork, request.finishWork, stateMachine.workItem, work.open, work.assigned, work.completed, work.assign, work.complete, event.serviceRequestSubmitted, event.workItemCompleted]
+    decision: approved
+    approver: Ontology Standards Team
+    decidedAt: "2026-07-27T10:00:00Z"
+    evidenceRefs: [evidence.governance]

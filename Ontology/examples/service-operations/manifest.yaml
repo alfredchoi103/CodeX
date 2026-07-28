@@ -1,0 +1,17 @@
+ontologyId: org.example.service-operations
+ontologyVersion: 1.0.0
+specVersion: 1.0.0
+namespace: https://example.org/ontology/service-operations/
+status: accepted
+owners:
+  - role: owner
+    name: Ontology Standards Team
+documents:
+  semantics: semantics.yaml
+  kinetics: kinetics.yaml
+  bindings: bindings.yaml
+  policies: policies.yaml
+  evidence: evidence.yaml
+  migrations: migrations.yaml
+  traceability: traceability.yaml
+contentDigest: sha256:18a40e1a4932be1c0fd8fbbaf4c4ae7989214e5617a0121403124a4707ec1615

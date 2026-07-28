@@ -1,0 +1,17 @@
+evidenceRecords:
+  - id: evidence.v1-model
+    sourceUri: https://example.org/evidence/identity-v1-model
+    location: immutable v1 baseline evidence
+    capturedAt: "2026-01-15T09:00:00Z"
+    contentHash: sha256:1111111111111111111111111111111111111111111111111111111111111111
+    extractorVersion: manual-review-1
+    kind: document
+  - id: evidence.actor-conflict
+    sourceUri: https://example.org/evidence/identity-conflict-review
+    location: reviewed person and organization source conflicts
+    capturedAt: "2026-07-01T09:00:00Z"
+    contentHash: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    extractorVersion: manual-review-2
+    kind: document
+discoveryClaims: []
+approvals: []

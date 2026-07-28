@@ -1,0 +1,53 @@
+objectTypes:
+  - id: Actor
+    label: Actor (retracted)
+    descriptions: {en: Retained historical v1 definition; do not use for new data.}
+    status: retracted
+    evidenceRefs: [evidence.actor-conflict]
+    key: [Actor.actorId]
+    properties:
+      - {id: Actor.actorId, label: Actor identifier, status: retracted, valueType: {kind: primitive, primitive: string}, required: true}
+      - {id: Actor.givenName, label: Given name, valueType: {kind: primitive, primitive: string}}
+      - {id: Actor.registrationNumber, label: Organization registration number, valueType: {kind: primitive, primitive: string}}
+  - id: Person
+    label: Person
+    status: accepted
+    evidenceRefs: [evidence.actor-conflict]
+    key: [Person.personId]
+    properties:
+      - {id: Person.personId, label: Person identifier, valueType: {kind: primitive, primitive: string}, required: true}
+      - {id: Person.givenName, label: Given name, valueType: {kind: primitive, primitive: string}}
+  - id: Organization
+    label: Organization
+    status: accepted
+    evidenceRefs: [evidence.actor-conflict]
+    key: [Organization.organizationId]
+    properties:
+      - {id: Organization.organizationId, label: Organization identifier, valueType: {kind: primitive, primitive: string}, required: true}
+      - {id: Organization.registrationNumber, label: Registration number, valueType: {kind: primitive, primitive: string}}
+links:
+  - id: Actor.relatedTo.Actor
+    label: Actor related to actor (retracted)
+    descriptions: {en: Retained historical relation replaced by explicit roles.}
+    status: retracted
+    sourceRef: Actor
+    targetRef: Actor
+    cardinality: many-to-many
+    evidenceRefs: [evidence.actor-conflict]
+  - id: Person.memberOf.Organization
+    label: Person is member of organization
+    status: accepted
+    sourceRef: Person
+    targetRef: Organization
+    cardinality: many-to-many
+    evidenceRefs: [evidence.actor-conflict]
+  - id: Organization.representedBy.Person
+    label: Organization is represented by person
+    status: accepted
+    sourceRef: Organization
+    targetRef: Person
+    cardinality: many-to-many
+    evidenceRefs: [evidence.actor-conflict]
+interfaces: []
+invariants: []
+businessTerms: []

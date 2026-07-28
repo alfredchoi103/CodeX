@@ -1,0 +1,232 @@
+@prefix ebo: <https://w3id.org/executable-business-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ebo:ElementShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:ObjectType,
+        ebo:PropertyType,
+        ebo:LinkType,
+        ebo:ActionType,
+        ebo:DiscoveryClaim ;
+    sh:property [
+        sh:path ebo:stableId ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Every ontology element must have exactly one string stableId." ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:string ]
+            [ sh:datatype rdf:langString ]
+        ) ;
+        sh:message "Every ontology element must have exactly one string or language-tagged label." ;
+    ] .
+
+ebo:ObjectTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:ObjectType ;
+    sh:property [
+        sh:path ebo:key ;
+        sh:minCount 1 ;
+        sh:class ebo:PropertyType ;
+        sh:message "An ObjectType must have at least one key that points to a PropertyType." ;
+    ] .
+
+ebo:PropertyTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:PropertyType ;
+    sh:property [
+        sh:path ebo:valueType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A PropertyType must have exactly one valueType." ;
+    ] .
+
+ebo:LinkTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:LinkType ;
+    sh:property [
+        sh:path ebo:source ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A LinkType must have exactly one source ObjectType." ;
+    ] ;
+    sh:property [
+        sh:path ebo:target ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A LinkType must have exactly one target ObjectType." ;
+    ] ;
+    sh:property [
+        sh:path ebo:cardinality ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ("one-to-one" "one-to-many" "many-to-one" "many-to-many") ;
+        sh:message "LinkType cardinality must be one-to-one, one-to-many, many-to-one, or many-to-many." ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes ebo:Prefixes ;
+        sh:message "Each LinkType endpoint must point to a declared ObjectType." ;
+        sh:select """
+            SELECT $this ?endpoint
+            WHERE {
+                $this ?role ?endpoint .
+                FILTER (?role = ebo:source || ?role = ebo:target)
+                FILTER (isIRI(?endpoint))
+                FILTER NOT EXISTS { ?endpoint a ebo:ObjectType }
+            }
+        """ ;
+    ] .
+
+ebo:ActionTypeShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:ActionType ;
+    sh:property [
+        sh:path ebo:precondition ;
+        sh:datatype xsd:string ;
+        sh:message "Each ActionType precondition must be a string expression." ;
+    ] ;
+    sh:property [
+        sh:path ebo:effect ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An ActionType must declare at least one effect." ;
+    ] ;
+    sh:property [
+        sh:path ebo:auditRule ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "An ActionType must declare at least one auditRule." ;
+    ] .
+
+ebo:DiscoveryClaimShape
+    a sh:NodeShape ;
+    sh:targetClass ebo:DiscoveryClaim ;
+    sh:property [
+        sh:path ebo:supportingEvidence ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "A DiscoveryClaim must cite at least one supportingEvidence item." ;
+    ] ;
+    sh:property [
+        sh:path ebo:confidence ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 100 ;
+        sh:message "DiscoveryClaim confidence must be an integer from 0 through 100." ;
+    ] ;
+    sh:property [
+        sh:path ebo:grade ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ("A" "B" "C" "D") ;
+        sh:message "DiscoveryClaim grade must be A, B, C, or D." ;
+    ] ;
+    sh:property [
+        sh:path ebo:falsifier ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A DiscoveryClaim must declare at least one falsifier." ;
+    ] ;
+    sh:property [
+        sh:path ebo:counterEvidence ;
+        sh:nodeKind sh:IRI ;
+        sh:message "DiscoveryClaim counterEvidence entries must be IRIs." ;
+    ] ;
+    sh:property [
+        sh:path ebo:counterEvidenceAssessment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A DiscoveryClaim must include exactly one counterEvidenceAssessment." ;
+    ] ;
+    sh:property [
+        sh:path ebo:counterEvidenceLevel ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ("none" "minor" "material" "strong" "coreContradiction") ;
+        sh:message "DiscoveryClaim counterEvidenceLevel must use the normative level vocabulary." ;
+    ] ;
+    sh:property [
+        sh:path ebo:counterEvidenceScore ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 100 ;
+        sh:message "DiscoveryClaim counterEvidenceScore must be an integer from 0 through 100." ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes ebo:Prefixes ;
+        sh:message "DiscoveryClaim grade must match its confidence threshold." ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ebo:confidence ?score ; ebo:grade ?grade .
+                FILTER (
+                    (?score >= 85 && ?grade != "A") ||
+                    (?score >= 70 && ?score < 85 && ?grade != "B") ||
+                    (?score >= 50 && ?score < 70 && ?grade != "C") ||
+                    (?score < 50 && ?grade != "D")
+                )
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes ebo:Prefixes ;
+        sh:message "DiscoveryClaim counterEvidenceLevel must match counterEvidenceScore." ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ebo:counterEvidenceLevel ?level ; ebo:counterEvidenceScore ?score .
+                FILTER (
+                    (?level = "none" && ?score != 100) ||
+                    (?level = "minor" && ?score != 75) ||
+                    (?level = "material" && ?score != 50) ||
+                    (?level = "strong" && ?score != 25) ||
+                    (?level = "coreContradiction" && ?score != 0)
+                )
+            }
+        """ ;
+    ] .
+
+ebo:StableIdUniquenessShape
+    a sh:NodeShape ;
+    sh:targetNode ebo:StableIdRegistry ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes ebo:Prefixes ;
+        sh:message "Every stableId must be unique; duplicate stableId found." ;
+        sh:select """
+            SELECT $this ?value
+            WHERE {
+                ?left ebo:stableId ?value .
+                ?right ebo:stableId ?value .
+                FILTER (STR(?left) < STR(?right))
+            }
+        """ ;
+    ] .
+
+ebo:Prefixes
+    a owl:Ontology ;
+    sh:declare [
+        sh:prefix "ebo" ;
+        sh:namespace "https://w3id.org/executable-business-ontology#"^^xsd:anyURI ;
+    ] .

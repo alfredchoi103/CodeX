@@ -1,0 +1,24 @@
+objectTypes:
+  - id: Actor
+    label: Actor
+    descriptions:
+      en: An accepted identity-bearing party, believed in v1 to cover both people and organizations.
+    status: accepted
+    evidenceRefs: [evidence.v1-model]
+    key: [Actor.actorId]
+    properties:
+      - {id: Actor.actorId, label: Actor identifier, valueType: {kind: primitive, primitive: string}, required: true}
+      - {id: Actor.givenName, label: Given name, valueType: {kind: primitive, primitive: string}}
+      - {id: Actor.registrationNumber, label: Organization registration number, valueType: {kind: primitive, primitive: string}}
+links:
+  - id: Actor.relatedTo.Actor
+    label: Actor related to actor
+    descriptions: {en: A broad relationship accepted before role-specific evidence was available.}
+    status: accepted
+    sourceRef: Actor
+    targetRef: Actor
+    cardinality: many-to-many
+    evidenceRefs: [evidence.v1-model]
+interfaces: []
+invariants: []
+businessTerms: []

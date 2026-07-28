@@ -1,0 +1,16 @@
+ontologyId: org.example.identity-baseline
+ontologyVersion: 2.0.0
+specVersion: 1.0.0
+namespace: https://example.org/ontology/identity-baseline/
+status: accepted
+owners:
+  - {role: owner, name: Identity Ontology Council}
+documents:
+  semantics: semantics.yaml
+  kinetics: kinetics.yaml
+  bindings: bindings.yaml
+  policies: policies.yaml
+  evidence: evidence.yaml
+  migrations: migrations.yaml
+  traceability: traceability.yaml
+contentDigest: sha256:c8ec82fbef9fc29d53a7f090318541a82ee6146bea2f54c2e6483035cac2ef6c
